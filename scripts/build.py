@@ -53,14 +53,14 @@ def build() -> None:
         sys.exit("\n".join(errors))
     if CLAUDE.exists():
         shutil.rmtree(CLAUDE)
-    shutil.copytree(SRC, CLAUDE)
+    shutil.copytree(SRC, CLAUDE, ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
     DIST.mkdir(exist_ok=True)
     for old in DIST.glob("*.zip"):
         old.unlink()
     for d in skills():
         with zipfile.ZipFile(DIST / f"{d.name}.zip", "w", zipfile.ZIP_DEFLATED) as z:
             for f in sorted(d.rglob("*")):
-                if f.is_file():
+                if f.is_file() and "__pycache__" not in f.parts and f.suffix != ".pyc":
                     z.write(f, f"{d.name}/{f.relative_to(d).as_posix()}")
     print(f"Built {len(skills())} skills: " + ", ".join(d.name for d in skills()))
 

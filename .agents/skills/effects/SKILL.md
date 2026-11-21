@@ -9,27 +9,55 @@ Original skill and engine by Vibha Ramprakash (@vibha.in.progress), MIT License:
 
 The user is usually not technical. Keep replies short and friendly, do the work for them, and never ask them to run commands themselves.
 
-All paths below are relative to this skill's folder (the folder this SKILL.md is in). Use its absolute path in commands.
+Works the same in Claude Code, Claude.ai, OpenAI Codex, Gemini CLI and Antigravity, on Windows, macOS and Linux.
 
 ## 1. First run: set up (once)
-If this folder has no `scripts/` (only SKILL.md was saved), fetch the engine first and work from that folder instead:
-`git clone --depth 1 https://github.com/Vibha-Ramprakash/claude-video-effects ~/effects-kit` (use `~/effects-kit` as the skill folder for every command below).
+Run the setup script that sits next to this SKILL.md, from the user's project folder:
 
-If Hugging Face is blocked (some cloud sandboxes), `scripts/words.py` can't download its Whisper model. Fix: get whisper-small from npm (`npm pack @skillninja/shortmovie-telop-model-p0..p3`, copy tokenizer/config/vocabulary/preprocessor files from p0 and `cat` the four `model.bin.partN` into `~/models/whisper-small/model.bin`), then in words.py load that folder, decode audio with ffmpeg to a 16 kHz float numpy array (PyAV path decoding fails), and pass `vad_filter=False` (the VAD model also downloads). Set `WHISPER_LANG=hi` for Hindi.
+```
+python "<this skill folder>/setup_effects.py"
+```
+
+(Use `python3` if `python` is not found. On Windows use `py` if neither works.)
+
+It downloads the effects engine into `./effects-kit` inside the current folder, makes a Python
+environment and installs the packages. The first run takes 1 to 3 minutes. Read the LAST line:
+- `READY <python> <kit>`: done. In every command below, `PY` means that `<python>` path and
+  `KIT` means that `<kit>` folder (for example `KIT/scripts/fx.py`).
+- `NEED_FFMPEG`: install ffmpeg for them (Windows `winget install ffmpeg`, then open a new terminal;
+  macOS `brew install ffmpeg`; Linux `sudo apt install ffmpeg`), then run setup again.
+- `NEED_GIT`: install Git the same way (`winget install Git.Git` on Windows), then run again.
+- `NEED_NETWORK`: the first setup must download the engine and packages. See "Sandboxed agents".
+- `FAILED`: read the reason; mediapipe works best on Python 3.12
+  (`winget install Python.Python.3.12` or `brew install python@3.12`).
+
+### Sandboxed agents (Codex and others)
+- Codex blocks network by default. For the one-time setup, ask the user to allow it: approve the
+  command when Codex asks, or switch permissions with `/permissions` (Full access), or start Codex
+  with `codex -c sandbox_workspace_write.network_access=true`. Rendering needs no network.
+- Keep everything inside the project folder (the default `./effects-kit`), so a workspace-only
+  sandbox can write it. Write the plan, check frames and outputs next to the user's video in the
+  project folder too. If the video is elsewhere, copy it into the project folder first.
+- To check frames, open the PNGs with your image viewer tool (in Codex: the image view tool). If you
+  cannot view images, tell the user the PNG paths and ask them to look before the final render.
+
+### Word timing (optional)
+`PY KIT/scripts/words.py <video>` needs Whisper: install it once with `PY -m pip install faster-whisper`
+(network needed). Set `WHISPER_LANG=hi` for Hindi (PowerShell: `$env:WHISPER_LANG="hi"`).
+If Hugging Face is blocked (some cloud sandboxes), the Whisper model can't download. Fix: get
+whisper-small from npm (`npm pack @skillninja/shortmovie-telop-model-p0..p3`, copy
+tokenizer/config/vocabulary/preprocessor files from p0 and join the four `model.bin.partN` into
+`~/models/whisper-small/model.bin`), then in words.py load that folder, decode audio with ffmpeg to a
+16 kHz float numpy array (PyAV path decoding fails), and pass `vad_filter=False`.
 
 The defaults inside many effects are the original creator's (CLAUDE, Vibha, view counts, reels). Always pass the user's own `text`/`name`/`handle`/`images`. Ask for their handle once if you don't know it.
-
-Run `bash scripts/setup.sh`. It prints `READY` when done (the first time takes 1 to 3 minutes).
-- `NEED_FFMPEG`: install it for them. On a Mac: `brew install ffmpeg` (if `brew` is missing, tell them to install Homebrew from brew.sh first). On Windows: `winget install ffmpeg`.
-- `NEED_PYTHON`: install Python 3.12 (Mac: `brew install python@3.12`, Windows: `winget install Python.Python.3.12`), then run setup again.
-- On Windows, the Python is at `.venv\Scripts\python.exe` instead of `.venv/bin/python`.
 
 ## 2. Get the video and the effect
 - Video: the user drags the file into the chat, or gives a path. A vertical phone video works best.
 - Effect: from `/effects <name>`, or from what they describe. Match their words to the table below. Unsure? Show them the list.
 
 ## 3. Find the timing
-- If they say "on the word X" or "when I say ...", run `.venv/bin/python scripts/words.py <video>` and use those times.
+- If they say "on the word X" or "when I say ...", run `PY KIT/scripts/words.py <video>` and use those times.
 - If they give no timing, apply the effect for the whole clip, or ask which part (one short question).
 - Short windows look best: 1.5 to 4 seconds per effect.
 
@@ -41,11 +69,11 @@ Run `bash scripts/setup.sh`. It prints `READY` when done (the first time takes 1
      {"fx": "backdrop-word", "start": 14.0, "end": 16.3, "text": "CLAUDE"}
    ]}
    ```
-2. Check frames first (fast): `.venv/bin/python scripts/fx.py --plan <plan.json> <video> <folder>/check.png --still 4.5,15.2`, using the middle of each effect. Look at the PNGs yourself. Fix the text, timing or options if something looks off (covers the face, cut off by the edge, unreadable).
-3. Render: `.venv/bin/python scripts/fx.py --plan <plan.json> <video> <video-name>_effects.mp4`. The output keeps their original audio. It renders at 1080p by default; add `--width 2160` for 4K (slower).
+2. Check frames first (fast): `PY KIT/scripts/fx.py --plan <plan.json> <video> <folder>/check.png --still 4.5,15.2`, using the middle of each effect. Look at the PNGs yourself. Fix the text, timing or options if something looks off (covers the face, cut off by the edge, unreadable).
+3. Render: `PY KIT/scripts/fx.py --plan <plan.json> <video> <video-name>_effects.mp4`. The output keeps their original audio. It renders at 1080p by default; add `--width 2160` for 4K (slower).
 4. Tell them where the file is. Remind them in one line to watch it before posting: it drafts, they approve.
 
-A single effect needs no plan: `.venv/bin/python scripts/fx.py orbit <video> <out.mp4> --start 3 --end 6 --text "..." --opt key=value`.
+A single effect needs no plan: `PY KIT/scripts/fx.py orbit <video> <out.mp4> --start 3 --end 6 --text "..." --opt key=value`.
 
 ## The 51 effects
 | # | `fx` name | What it does | Options (all optional) |

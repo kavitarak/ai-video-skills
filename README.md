@@ -20,7 +20,7 @@
 
 | Skill | What it makes | Needs |
 |---|---|---|
-| [`effects`](.agents/skills/effects/SKILL.md) | Adds any of **51 effects** to a talking-head video: orbit, spotlight, glass widgets, checklist, LED sign, match-cut, iMessage pop-ups and more. Effects track your face and can sit **behind your head**. | Python 3.12, ffmpeg |
+| [`effects`](.agents/skills/effects/SKILL.md) | Adds any of **51 effects** to a talking-head video: orbit, spotlight, glass widgets, checklist, LED sign, match-cut, iMessage pop-ups and more. Effects track your face and can sit **behind your head**. | Python 3.10+ (3.12 best), ffmpeg, git |
 | [`rank-reel`](.agents/skills/rank-reel/SKILL.md) | A **Hindi Top 10 → No.1 countdown reel** with bright cards, counting numbers, demo panels, word-by-word Devanagari captions and a "comment" outro. From a topic or your own video. | Node.js, HyperFrames, Chrome |
 | [`casefile-documentary-reel`](.agents/skills/casefile-documentary-reel/SKILL.md) | A **case-file documentary explainer** on any topic: aged notebook paper, bold headlines, red-ink circles, stamps, typewriter documents. | Node.js, HyperFrames, Chrome |
 | [`gtaclip`](.agents/skills/gtaclip/SKILL.md) | Turns a **long YouTube video into viral 9:16 clips** with a hook title and captions. The agent picks the moments, no API key. Uses [GTAClip](https://github.com/kavitarak/GTA-clip.kavi). | Python 3.10, ffmpeg, yt-dlp |
@@ -61,6 +61,14 @@ bash install.sh codex                       # or: install.ps1 codex
 ```
 
 Skills go to `~/.codex/skills/`. Restart Codex, then type `$` to pick a skill, or just ask.
+
+**First run of `effects` in Codex:** Codex blocks network by default, but setup has to download the effects engine and Python packages once. Approve the command when Codex asks, or switch to Full access with `/permissions`, or start Codex like this:
+
+```bash
+codex -c sandbox_workspace_write.network_access=true
+```
+
+After setup, rendering works offline. The engine goes into `./effects-kit` inside your project folder, so Codex's workspace sandbox can write it. Works on Windows (PowerShell), macOS and Linux.
 
 ### Gemini CLI
 
