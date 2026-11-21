@@ -171,7 +171,7 @@ The `effects` skill is adapted from [claude-video-effects](https://github.com/Vi
 ---
 
 <p align="center">
-  Made with ❤️ by <b>kavi.onlines</b> (Kavi Tarak)<br>
+  Made with ❤️ by <b>Tarak Industries</b> (Kavi Tarak)<br>
   <a href="https://www.youtube.com/@kavi.online">YouTube</a> ·
   <a href="https://t.me/kavitarak">Telegram</a> ·
   <a href="https://linkedin.com/in/hemanttarak">LinkedIn</a><br>
