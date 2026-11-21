@@ -30,6 +30,24 @@ The agent installs what's missing the first time. You just ask.
 
 ---
 
+## ✨ Spotlight: the 51 video effects
+
+<p align="center"><img src="assets/effects-gallery.png" alt="All 51 video effects, grouped" width="95%"></p>
+
+Add one effect, or a whole plan of them, to a talking-head video. They are **face-aware**: they follow you, stay off your face and can sit **behind your head**. The original audio is kept.
+
+```text
+/effects spotlight on the word "free" in my_video.mp4
+/effects orbit my reels around my head from 3s to 6s
+/effects led-sign "SUBSCRIBE" behind me, then a countdown-flip at the end
+```
+
+<p align="center"><img src="assets/effects-howto.png" alt="Use /effects in 4 steps" width="95%"></p>
+
+Full option list for every effect: [`effects/SKILL.md`](.agents/skills/effects/SKILL.md). Effects engine by **Vibha Ramprakash** (MIT), see [License](#-license).
+
+---
+
 ## 🚀 Install
 
 ```bash
