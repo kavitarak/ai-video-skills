@@ -39,6 +39,10 @@ cd ai-video-skills
 
 Then pick your tool:
 
+<p align="center">
+  <img src="assets/demo-all-tools.png" alt="How to run the skills in Claude Code, Claude.ai, Codex, Gemini CLI and Antigravity" width="100%">
+</p>
+
 ### Claude Code
 
 ```bash
@@ -48,11 +52,15 @@ powershell -ExecutionPolicy Bypass -File install.ps1 claude    # Windows
 
 Skills go to `~/.claude/skills/`. Restart Claude Code, then type `/effects` or just ask.
 
+<p align="center"><img src="assets/demo-claude-code.png" alt="Using the skills in Claude Code" width="90%"></p>
+
 ### Claude.ai (web, desktop, mobile)
 
 1. Open the [`dist/`](dist) folder and download the `.zip` for each skill you want.
 2. In Claude, open **Settings**, find **Skills** (under Capabilities or Customize, depending on your app version) and upload the zip.
 3. Ask: *"Add the spotlight effect to my video"*.
+
+<p align="center"><img src="assets/demo-claude-ai.png" alt="Using the skills in Claude.ai" width="90%"></p>
 
 ### OpenAI Codex
 
@@ -70,6 +78,8 @@ codex -c sandbox_workspace_write.network_access=true
 
 After setup, rendering works offline. The engine goes into `./effects-kit` inside your project folder, so Codex's workspace sandbox can write it. Works on Windows (PowerShell), macOS and Linux.
 
+<p align="center"><img src="assets/demo-codex.png" alt="Using the skills in OpenAI Codex" width="90%"></p>
+
 ### Gemini CLI
 
 ```bash
@@ -77,6 +87,8 @@ bash install.sh gemini                      # or: install.ps1 gemini
 ```
 
 Skills go to `~/.gemini/skills/`. Check with `/skills list`.
+
+<p align="center"><img src="assets/demo-gemini-cli.png" alt="Using the skills in Gemini CLI" width="90%"></p>
 
 ### Google Antigravity
 
@@ -86,6 +98,8 @@ bash install.sh antigravity                 # or: install.ps1 antigravity
 
 Skills go to `~/.gemini/config/skills/`. Restart Antigravity, then type `/<skill-name>` in the agent panel or just ask.
 
+<p align="center"><img src="assets/demo-antigravity.png" alt="Using the skills in Google Antigravity" width="90%"></p>
+
 ### All tools at once
 
 ```bash
@@ -94,6 +108,8 @@ powershell -ExecutionPolicy Bypass -File install.ps1           # Windows
 ```
 
 > **No install needed inside this folder:** Codex, Gemini CLI and Antigravity read `.agents/skills/` and Claude Code reads `.claude/skills/` when you open this repo directly.
+
+<sub>The screenshots above are illustrations of the workflow, not real recordings.</sub>
 
 ---
 
